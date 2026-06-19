@@ -89,3 +89,5 @@ document.body.addEventListener("click", function() {
     validationMessage.textContent = "Background clicked";
 });
 
+
+
