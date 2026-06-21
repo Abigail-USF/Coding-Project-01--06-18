@@ -1,4 +1,44 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background-color: #f4f7fb;
+    max-width: 700px;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button {
+    cursor: pointer;
+}
+
+#tooltip  {
+    color: #0056b3;
+    font-style: italic;
+    
+}
+
+#validation-message {
+    color: red;
+    font-weight: bold;
+}
+
+.feedback-entry {
+    background-color: white
+    border: 1px solid #ccc;
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
 }
