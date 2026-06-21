@@ -9,85 +9,81 @@ const tooltip = document.getElementById('tooltip');
 const validationMessage = document.getElementById('validation-message');
 const feedbackDisplay = document.getElementById('feedback-display');
 
-// Count characters as user types
+// Tooltip messages for each field
+const tooltipMessages = {
+    userName: 'Enter your full name',
+    email: 'Enter a valid email address',
+    comments: 'Enter your feedback here'
+};
+
+// Count characters as the user types in the comments box
 
 comments.addEventListener('input', function() {
     charCount.textContent = `Characters: ${comments.value.length}`;
 });
 
-// Show tooltips
-userName.addEventListener('mouseover', function() {
-    tooltip.textContent = 'Enter your full name';
+// Use event delegation for tooltips and field highlighting
+form.addEventListener('mouseover', function(event) {
+    if (event.target.matches('input, textarea')) {
+        tooltip.textContent = tooltipMessages[event.target.id];
+        event.target.style.backgroundColor = "#f0f8ff";
+   
+    }
 });
 
-email.addEventListener("mouseover", function() {
-    tooltip.textContent = 'Enter a valid email address';
+
+form.addEventListener('mouseout', function(event) {
+    if (event.target.matches('input, textarea')) {
+        tooltip.textContent = '';
+        event.target.style.backgroundColor = '';
+    }
 });
 
-comments.addEventListener("mouseover", function() {
-    tooltip.textContent = 'Enter your feedback here';
+// Prevent clicks inside the form from bubbling to the page background
+form.addEventListener('click', function(event) {
+    event.stopPropagation();
 });
 
-// Hide tooltips
-userName.addEventListener('mouseout', function() {
-    tooltip.textContent = '';
+// Optional background click test only 
+
+document.body.addEventListener('click', function() {
+    console.log('Background clicked');
 });
 
-email.addEventListener("mouseout", function() {
-    tooltip.textContent = '';
-});
-
-comments.addEventListener("mouseout", function() {
-    tooltip.textContent = '';
-});
-
-//Validate form on submit
+// Validate form and display feedback
 form.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    if (userName.value.trim() ==="" || email.value.trim() === "" || comments.value.trim() === "") {
+    if (
+        userName.value.trim() === "" ||
+        email.value.trim() === "" ||
+        comments.value.trim() === ""
+    ) {
         validationMessage.textContent = "Please fill out all fields before submission.";
-    return;
- } 
+        return; 
+    }
 
- validationMessage.textContent = "";
-   
+validationMessage.textContent = "";
+
 const feedbackEntry = document.createElement('div');
+feedbackEntry.classList.add('feedback-entry');
 
-feedbackEntry.innerHTML = `
-    <h3>${userName.value}</h3>
-    <p><strong>Email:</strong> ${email.value}</p>
-    <p><strong>Feedback:</strong> ${comments.value}</p>
-`;
+const nameHeading = document.createElement('h3');
+nameHeading.textContent = userName.value;
+
+const emailParagraph = document.createElement('p');
+emailParagraph.textContent = `Email: ${email.value}`;
+
+const commentsParagraph = document.createElement('p');
+commentsParagraph.textContent = `Feedback: ${comments.value}`;
+
+feedbackEntry.appendChild(nameHeading);
+feedbackEntry.appendChild(emailParagraph);
+feedbackEntry.appendChild(commentsParagraph);
 
 feedbackDisplay.appendChild(feedbackEntry);
 
 form.reset();
 charCount.textContent = "Characters: 0";
 }); 
-
-// Event bubbling and delegation for all form fields
-form.addEventListener("mouseover", function(event) {
-    if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
-        event.target.style.backgroundColor = "#f0f8ff";
-    }
-});
-
-form.addEventListener("mouseout", function(event) {
-    if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
-        event.target.style.backgroundColor = "";
-    }
-});
-
-// Prevent background clicks from triggering form-related events
-
-form.addEventListener("click", function(event) {
-    event.stopPropagation();
-});
-
-document.body.addEventListener("click", function() {
-    validationMessage.textContent = "Background clicked";
-});
-
-
 
